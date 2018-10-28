@@ -178,10 +178,39 @@ num_distinct = 0
 print("Estimate of number of distinct elements = %s"%(num_distinct,))
 
 ################### Part 3 ######################
+sample=np.random.choice(2059856,513)
+#sample
+#variables=[]
+d={}
+for i in sample:
+    d[i]=k[i]
+print(len(d))
+'''
+for i in sample:
+    variables.append(k[i])
+print(len(variables))
 
+sample
+'''
 var_reservoir = [0]*512
 second_moment = 0
 third_moment = 0
+
+d1={}
+for key,value in d.items():
+    L1 = k[key:]
+    d1[key]=L1.count(value)
+print(len(d1))
+
+estimates=[]
+
+for v in d1.values():
+    i == 2059856(2*v - 1)
+    
+    estimates.append( i)
+
+print(len(estimates))
+
 
 # You can use numpy.random's API for maintaining the reservoir of variables
 
@@ -190,3 +219,5 @@ third_moment = 0
       
 print("Estimate of second moment = %s"%(second_moment,))
 print("Estimate of third moment = %s"%(third_moment,))
+
+
