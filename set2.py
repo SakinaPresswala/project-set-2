@@ -83,3 +83,110 @@ FP
 
 print('Total number of words in stream = %s'%(num_words,))
 print('Total number of words in stream = %s'%(num_words_in_set,))
+      
+################### Part 2 ######################
+import random
+num_features=2059856
+def findPrime(n):
+    """Returns a prime number larger than n
+    """
+    def isPrime(k):
+        import math
+        for divisor in range(2, round(math.sqrt(n)-0.5)):
+            if k%divisor==0:
+                return False
+        return True
+    if n%2==0:
+        candidate = n+1
+    else:
+        candidate = n
+    while not isPrime(candidate):
+        candidate += 2
+    return candidate   
+
+hash_range = 24 # number of bits in the range of the hash functions
+fm_hash_functions = [None]*35  # Create the appropriate hashes here
+p=findPrime(num_features)
+
+def uhf(p, m):
+    a = random.randint(1,p-1)
+    b = random.randint(0,p-1)
+    return lambda x: ((a*x+b)%p)%m
+
+hash_range = 24  # number of bits in the range of the hash functions
+num_hashes = 35
+'''
+h1=[np.vectorize(uhf(p,2**hash_range))(range(num_features))]
+len(h1[0])
+'''
+hashes=[np.vectorize(uhf(p,2**hash_range))(range(num_features)) for
+                                            _ in range(num_hashes)]
+len(hashes)
+
+def binary(n):
+    return bin(n)
+
+binary_hashes=[]
+for i in range(len(hashes)):
+    vf= (np.vectorize(binary)(hashes[i]))
+    binary_hashes.append(vf)
+    
+print(len(binary_hashes))
+print(binary_hashes[0])
+'''
+fm_hash_functions = [np.vectorize(uhf(p,2**hash_range))(range(num_features))]*35  # Create the appropriate hashes here
+fm_hash_functions[2]
+'''
+     
+def num_trailing_bits(n):
+    """Returns the number of trailing zeros in bin(n)
+    n: integer
+    """
+    return len(n)- len(n.rstrip('0'))
+
+#num_trailing_bits('1001000')  #returns 3
+
+trailing_zeros=[]
+for i in range(len(binary_hashes)):
+    vf= (np.vectorize(num_trailing_bits)(binary_hashes[i]))
+    trailing_zeros.append(vf)
+print(trailing_zeros[:5])
+A=np.vstack(trailing_zeros)
+A[2,:]
+max_zeros=np.amax(A,axis = 1)
+max_zeros.shape
+#estimate of distinct elements = 2^20 =1048576
+  
+num_distinct = 0
+
+#for word in data_stream(): # Implement the Flajolet-Martin algorithm
+#    pass
+
+print("Estimate of number of distinct elements = %s"%(num_distinct,))
+def num_trailing_bits(n):
+    """Returns the number of trailing zeros in bin(n)
+
+    n: integer
+    """
+    pass
+
+num_distinct = 0
+
+#for word in data_stream(): # Implement the Flajolet-Martin algorithm
+#    pass
+
+print("Estimate of number of distinct elements = %s"%(num_distinct,))
+
+################### Part 3 ######################
+
+var_reservoir = [0]*512
+second_moment = 0
+third_moment = 0
+
+# You can use numpy.random's API for maintaining the reservoir of variables
+
+#for word in data_stream(): # Imoplement the AMS algorithm here
+#    pass 
+      
+print("Estimate of second moment = %s"%(second_moment,))
+print("Estimate of third moment = %s"%(third_moment,))
